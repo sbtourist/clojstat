@@ -1,4 +1,4 @@
-# Clo_j_Stat - JStat GC logs viewer
+# ClojStat - JStat GC logs viewer
 
 ClojStat is a simple graphical viewer of [JStat](http://download.oracle.com/javase/6/docs/technotes/tools/share/jstat.html) garbage collector logs, based on Clojure, Compojure and JQuery Visualization.   
 It currently has a limited set of features and comes with a very simple web interface, but if you need to quickly make sense of JStat logs by plotting them, it just works!
