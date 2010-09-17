@@ -27,8 +27,8 @@
    ]
   )
 
-(defn make-stats-page [file stats data interval]
-  (let [timestamps (take-nth interval (sort (keys stats)))]
+(defn make-stats-page [file stats values]
+  (let [timestamps (sort (keys stats))]
     (html
       [:html
        [:head
@@ -37,7 +37,7 @@
         ]
        [:body
         [:div {:id "table-container" :align "center"}
-         (make-stats-table file timestamps stats (split data #","))
+         (make-stats-table file timestamps stats (split values #","))
          ]
         [:div {:id "chart-container" :align "center"}]
         ]
@@ -60,13 +60,17 @@
          [:br]
          (text-field :file)
          [:br]
-         (label :stats "JStat Stats")
+         (label :values "JStat Values")
          [:br]
-         (text-field :stats)
+         (text-field :values)
          [:br]
-         (label :interval "Samples interval")
+         (label :interval "Interval")
          [:br]
          (text-field :interval)
+         [:br]
+         (label :calculation "Calculation")
+         [:br]
+         (drop-down :method [:mean :sample] :sample)
          [:br]
          (submit-button "View")
          )
@@ -78,7 +82,7 @@
 
 (defroutes jstat-viewer-routes
   (GET "/post" [] (make-post-page))
-  (POST "/view" {params :params} (make-stats-page (params "file") (jstat-reader (params "file")) (params "stats") (Integer/parseInt (get params "interval" "1"))))
+  (POST "/view" {params :params} (make-stats-page (params "file") (jstat-reader (resolve (symbol (params "method"))) (Integer/parseInt (get params "interval" "1")) (params "file")) (params "values")))
   (routes/files "/static" {:root "static"})
   )
 
