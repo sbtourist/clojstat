@@ -45,7 +45,6 @@
   )
 
 (defn jstat-reader [stats-fn stats-interval stats-file]
-  (println stats-fn)
   (with-open [stats (reader stats-file)]
     (stats-fn
       (reduce #(into %1 %2)
